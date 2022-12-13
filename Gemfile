@@ -14,7 +14,11 @@ gem 'puma', '~> 3.11'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
+gem 'action_policy'
+gem 'dotenv-rails', groups: %i[development test]
+gem 'rack-cors'
+gem 'jwt'
 # pagination
 gem "kaminari"
 # serializer
