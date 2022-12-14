@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   # GET /users/profile
   def profile
-    render json: @user, status: :ok
+    render json: @current_user, status: :ok
   end
 
   # POST /users
