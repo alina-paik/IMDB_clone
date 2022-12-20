@@ -1,16 +1,17 @@
 class MoviesController < ApplicationController
   before_action :authentication, except: %i[index show]
-  before_action :find_movie, only: %i[show update destroy add_category remove_category]
-  # GET /movies?page=:page
-  def index
-    @movies = Movie.page(params[:page])
-    render json: @movies
-  end
+  before_action :find_movie, except: %i[index create]
 
-  # GET /movies/:id
-  def show
-    render json: @movie, status: :ok
-  end
+  # GET /movies?page=:page
+   def index
+     @movies = Movie.page(params[:page])
+     render json: @movies
+   end
+
+   # GET /movies/:id
+   def show
+     render json: @movie, status: :ok
+   end
 
   # POST /movies
   def create
@@ -64,6 +65,16 @@ class MoviesController < ApplicationController
     end
   end
 
+  # POST movies/:id/rating
+  def rate_movie
+    rate = Rating.new(rating_params)
+    if rate.save
+      render json: rate, status: :created
+    else
+      render json: rate.errors, status: :unprocessable_entity
+    end
+  end
+
 
   private
   def find_movie
@@ -83,5 +94,9 @@ class MoviesController < ApplicationController
 
   def find_category
    @categories_ids = @movie.categories.map(&:id)
+ end
+
+ def rating_params
+   params.require(:rating).permit(:grade, :movie_id).merge(user_id: current_user.id)
  end
 end
